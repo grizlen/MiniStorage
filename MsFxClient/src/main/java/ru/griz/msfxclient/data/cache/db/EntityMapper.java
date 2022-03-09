@@ -16,6 +16,15 @@ public interface EntityMapper<T> {
         }
     }
 
+    default Integer getInt(ResultSet rs, String name) {
+        try {
+            return rs.getInt(name);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     default String getString(ResultSet rs, String name) {
         try {
             return rs.getString(name);

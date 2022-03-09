@@ -20,8 +20,8 @@ public class SqlQueries {
         String fields = fv.fields();
         String values = fv.values();
         String sql = "INSERT INTO " + table + " (" + fields + ") VALUES (" + values + ");";
-        int id = db.executeUpdate(sql);
-        entity.setId(id == 0 ? null : (long) id);
+        Long id = db.executeUpdate(sql);
+        entity.setId(id);
     }
 
     public <T extends Entity> void update(String table, T entity, EntityMapper<T> mapper) {

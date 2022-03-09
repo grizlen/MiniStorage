@@ -5,10 +5,15 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class FieldValues {
-
+    // TODO: 09.03.2022 Заменить мапу своей реализацией (все переделать)
     private Map<String, String> map = new HashMap<>();
 
     public void put(String field, Long value) {
+        String v = (value == null) ? "NULL" : String.valueOf(value);
+        map.put(field, v);
+    }
+
+    public void put(String field, Integer value) {
         String v = (value == null) ? "NULL" : String.valueOf(value);
         map.put(field, v);
     }

@@ -47,10 +47,14 @@ public abstract class Repository<T extends Entity> {
 
     public void save(T entity) {
         if (entity.getId() == null) {
-            queries.insert(table(), entity, mapper());
+            add(entity);
         } else {
             queries.update(table(), entity, mapper());
         }
+    }
+
+    public void add(T entity) {
+        queries.insert(table(), entity, mapper());
     }
 
     public void delete(Long id) {

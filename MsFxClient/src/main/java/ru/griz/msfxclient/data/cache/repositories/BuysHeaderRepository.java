@@ -3,12 +3,12 @@ package ru.griz.msfxclient.data.cache.repositories;
 import ru.griz.msfxclient.data.cache.db.FieldValues;
 import ru.griz.msfxclient.data.cache.db.Repository;
 import ru.griz.msfxclient.data.cache.db.EntityMapper;
-import ru.griz.msfxclient.data.cache.db.tables.DocBuyTable;
+import ru.griz.msfxclient.data.cache.db.tables.DocBuysTable;
 import ru.griz.msfxclient.data.entities.BuyHeaderEntity;
 
 import java.sql.ResultSet;
 
-public class BuyHeaderRepository extends Repository<BuyHeaderEntity> implements DocBuyTable {
+public class BuysHeaderRepository extends Repository<BuyHeaderEntity> implements DocBuysTable {
 
     private EntityMapper<BuyHeaderEntity> mapper = new EntityMapper<>() {
         @Override
@@ -22,6 +22,7 @@ public class BuyHeaderRepository extends Repository<BuyHeaderEntity> implements 
         @Override
         public FieldValues toFields(BuyHeaderEntity entity) {
             FieldValues fv = new FieldValues();
+            fv.put(COLUMN_ID, entity.getId());
             fv.put(COLUMN_DATE, formatDate(entity.getDate()));
             return fv;
         }

@@ -1,8 +1,11 @@
 package ru.griz.msfxclient.domain.controllers;
 
 import ru.griz.msfxclient.data.cache.DbContext;
+import ru.griz.msfxclient.data.cache.db.tables.DocumentsTable;
+import ru.griz.msfxclient.data.cache.repositories.DocumentsRepository;
 import ru.griz.msfxclient.data.entities.BuyHeaderEntity;
-import ru.griz.msfxclient.data.cache.repositories.BuyHeaderRepository;
+import ru.griz.msfxclient.data.cache.repositories.BuysHeaderRepository;
+import ru.griz.msfxclient.data.entities.DocumentsEntity;
 import ru.griz.msfxclient.domain.models.DocBuyModel;
 import ru.griz.msfxclient.domain.models.ProductItem;
 
@@ -10,7 +13,9 @@ import java.util.List;
 
 public class BuyController {
 
-    private final BuyHeaderRepository headerRepository = DbContext.repository(BuyHeaderRepository.class);
+    private final DocumentsRepository documentsRepository = DbContext.repository(DocumentsRepository.class);
+    private final BuysHeaderRepository headerRepository = DbContext.repository(BuysHeaderRepository.class);
+
     private static final Converter<DocBuyModel, BuyHeaderEntity> fromEntity =
             header -> new DocBuyModel(header.getId(), header.getDate());
 
@@ -25,7 +30,14 @@ public class BuyController {
     }
 
     public void save(DocBuyModel model) {
-        headerRepository.save(fromModel.convert(model));
+        if (model.getId() == null) {
+            DocumentsEntity documentsEntity = new DocumentsEntity(null, DocumentsTable.TYPE_BUY);
+            documentsRepository.save(documentsEntity);
+            model.setId(documentsEntity.getId());
+            headerRepository.add(fromModel.convert(model));
+        } else {
+            headerRepository.save(fromModel.convert(model));
+        }
     }
 
     public List<DocBuyModel.BuyItem> getItems(DocBuyModel model) {

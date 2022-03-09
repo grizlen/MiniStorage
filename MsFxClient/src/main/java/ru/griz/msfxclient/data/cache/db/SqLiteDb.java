@@ -1,6 +1,8 @@
 package ru.griz.msfxclient.data.cache.db;
 
-import ru.griz.msfxclient.data.cache.db.tables.DocBuyTable;
+import ru.griz.msfxclient.data.cache.db.tables.DocBuyItemsTable;
+import ru.griz.msfxclient.data.cache.db.tables.DocBuysTable;
+import ru.griz.msfxclient.data.cache.db.tables.DocumentsTable;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,16 +17,19 @@ public class SqLiteDb {
         try {
             Class.forName("org.sqlite.JDBC");
             sqliteConnection = new SqliteConnection();
-//            init();
+            init();
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
     private void init() {
-        String[] drop = new String[] {DocBuyTable.SQL_DROP};
-        String[] create = new String[] {DocBuyTable.SQL_CREATE};
-        String[] init = new String[] {DocBuyTable.SQL_INIT};
+        String[] drop = new String[] {
+                DocumentsTable.SQL_DROP, DocBuysTable.SQL_DROP, DocBuyItemsTable.SQL_DROP};
+        String[] create = new String[] {
+                DocumentsTable.SQL_CREATE, DocBuysTable.SQL_CREATE, DocBuyItemsTable.SQL_CREATE};
+        String[] init = new String[] {
+                DocumentsTable.SQL_INIT, DocBuysTable.SQL_INIT, DocBuyItemsTable.SQL_INIT};
         for (String sql : drop) {
             sqliteConnection.execute(sql);
         }
@@ -46,7 +51,7 @@ public class SqLiteDb {
         return sqliteConnection.executeQuery(sql, mapper);
     }
 
-    public int executeUpdate(String sql) {
+    public Long executeUpdate(String sql) {
         return sqliteConnection.executeUpdate(sql);
     }
 
@@ -89,14 +94,20 @@ public class SqLiteDb {
             return result;
         }
 
-        public int executeUpdate(String sql) {
+        public Long executeUpdate(String sql) {
             System.out.println(sql);
+            Long key = null;
             try (Statement statement = connection.createStatement()) {
-                return statement.executeUpdate(sql);
+                if (statement.executeUpdate(sql) == 1) {
+                    ResultSet rs = statement.getGeneratedKeys();
+                    if (rs.next()) {
+                        key = rs.getLong(1);
+                    }
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            return 0;
+            return key;
         }
     }
 }
