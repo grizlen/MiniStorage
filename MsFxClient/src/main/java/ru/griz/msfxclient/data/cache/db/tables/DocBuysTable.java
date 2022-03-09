@@ -8,6 +8,7 @@ public interface DocBuysTable extends TableInfo{
     String SQL_CREATE =
             "CREATE TABLE " + TABLE + " (" +
                     COLUMN_ID + " INTEGER PRIMARY KEY, " +
+                    COLUMN_SERVER_ID + " INTEGER, " +
                     COLUMN_DATE + " TEXT NOT NULL);";
 
     String SQL_DROP =

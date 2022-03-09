@@ -15,6 +15,7 @@ public class DocumentsRepository extends Repository<DocumentsEntity> implements 
         public DocumentsEntity toEntity(ResultSet rs) {
             DocumentsEntity result = new DocumentsEntity();
             result.setId(getLong(rs, COLUMN_ID));
+            result.setServerId(getLong(rs, COLUMN_SERVER_ID));
             result.setType(getString(rs, COLUMN_TYPE));
             return result;
         }
@@ -22,6 +23,7 @@ public class DocumentsRepository extends Repository<DocumentsEntity> implements 
         @Override
         public FieldValues toFields(DocumentsEntity entity) {
             FieldValues fv = new FieldValues();
+            fv.put(COLUMN_SERVER_ID, entity.getServerId());
             fv.put(COLUMN_TYPE, entity.getType());
             return fv;
         }

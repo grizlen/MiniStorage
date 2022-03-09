@@ -10,6 +10,7 @@ public interface DocBuyItemsTable extends TableInfo{
     String SQL_CREATE =
             "CREATE TABLE " + TABLE + " (" +
                     COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    COLUMN_SERVER_ID + " INTEGER, " +
                     COLUMN_DOC_ID + " INTEGER NOT NULL, " +
                     COLUMN_PRODUCT_ID + " INTEGER NOT NULL, " +
                     COLUMN_COUNT + " INTEGER NOT NULL);";

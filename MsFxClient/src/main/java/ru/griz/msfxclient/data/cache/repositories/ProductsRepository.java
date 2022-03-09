@@ -17,6 +17,7 @@ public class ProductsRepository extends Repository<ProductEntity> implements Pro
         public ProductEntity toEntity(ResultSet rs) {
             ProductEntity result = new ProductEntity();
             result.setId(getLong(rs, COLUMN_ID));
+            result.setServerId(getLong(rs, COLUMN_SERVER_ID));
             result.setName(getString(rs, COLUMN_NAME));
             return result;
         }
@@ -24,6 +25,7 @@ public class ProductsRepository extends Repository<ProductEntity> implements Pro
         @Override
         public FieldValues toFields(ProductEntity entity) {
             FieldValues fv = new FieldValues();
+            fv.put(COLUMN_SERVER_ID, entity.getServerId());
             fv.put(COLUMN_NAME, entity.getName());
             return fv;
         }

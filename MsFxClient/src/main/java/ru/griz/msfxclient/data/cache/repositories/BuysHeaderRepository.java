@@ -15,6 +15,7 @@ public class BuysHeaderRepository extends Repository<BuyHeaderEntity> implements
         public BuyHeaderEntity toEntity(ResultSet rs) {
             BuyHeaderEntity result = new BuyHeaderEntity();
             result.setId(getLong(rs, COLUMN_ID));
+            result.setServerId(getLong(rs, COLUMN_SERVER_ID));
             result.setDate(parseDate(getString(rs, COLUMN_DATE)));
             return result;
         }
@@ -23,6 +24,7 @@ public class BuysHeaderRepository extends Repository<BuyHeaderEntity> implements
         public FieldValues toFields(BuyHeaderEntity entity) {
             FieldValues fv = new FieldValues();
             fv.put(COLUMN_ID, entity.getId());
+            fv.put(COLUMN_SERVER_ID, entity.getServerId());
             fv.put(COLUMN_DATE, formatDate(entity.getDate()));
             return fv;
         }

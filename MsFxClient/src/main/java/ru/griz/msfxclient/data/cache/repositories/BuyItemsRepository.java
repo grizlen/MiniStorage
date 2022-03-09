@@ -16,6 +16,7 @@ public class BuyItemsRepository extends Repository<BuyItemEntity> implements Doc
         public BuyItemEntity toEntity(ResultSet rs) {
             BuyItemEntity result = new BuyItemEntity();
             result.setId(getLong(rs, COLUMN_ID));
+            result.setServerId(getLong(rs, COLUMN_SERVER_ID));
             result.setDocId(getLong(rs, COLUMN_DOC_ID));
             result.setProductId(getLong(rs, COLUMN_PRODUCT_ID));
             result.setCount(getInt(rs, COLUMN_COUNT));
@@ -25,6 +26,7 @@ public class BuyItemsRepository extends Repository<BuyItemEntity> implements Doc
         @Override
         public FieldValues toFields(BuyItemEntity entity) {
             FieldValues fv = new FieldValues();
+            fv.put(COLUMN_SERVER_ID, entity.getServerId());
             fv.put(COLUMN_DOC_ID, entity.getDocId());
             fv.put(COLUMN_PRODUCT_ID, entity.getProductId());
             fv.put(COLUMN_COUNT, entity.getCount());

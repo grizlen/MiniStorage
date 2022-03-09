@@ -3,12 +3,14 @@ package ru.griz.msfxclient;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import ru.griz.msfxclient.domain.CacheService;
 import ru.griz.msfxclient.presentation.common.ViewManager;
 import ru.griz.msfxclient.presentation.views.JournalBuyView;
 
 public class FxClientApp extends Application {
     @Override
     public void start(Stage stage) {
+        CacheService.checkUpdates();
         ViewManager.init();
         ViewManager.currentView(JournalBuyView.class);
         Scene scene = new Scene(ViewManager.mainView(), 320, 240);

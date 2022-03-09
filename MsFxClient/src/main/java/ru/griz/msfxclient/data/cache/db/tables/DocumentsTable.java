@@ -10,6 +10,7 @@ public interface DocumentsTable extends TableInfo{
     String SQL_CREATE =
             "CREATE TABLE " + TABLE + " (" +
                     COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    COLUMN_SERVER_ID + " INTEGER, " +
                     COLUMN_TYPE + " TEXT NOT NULL);";
 
     String SQL_DROP =
