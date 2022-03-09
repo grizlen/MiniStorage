@@ -29,11 +29,6 @@ public class ViewManager {
     }
 
     // TODO: 07.03.2022 Что то тут не так
-    public static void setNavTitle(String text) {
-        instance.mainView.getNavPanel().setTitle(text);
-    }
-
-    // TODO: 07.03.2022 Что то тут не так
     public static void setNavCommands(Command... commands) {
         instance.mainView.getNavPanel().commands(commands);
     }

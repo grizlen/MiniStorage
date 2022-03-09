@@ -1,15 +1,18 @@
 package ru.griz.msfxclient.presentation.common;
 
 import javafx.scene.control.ListView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 
 import java.util.List;
 
-public class DocumentTable<T> {
+public class DocTableView<T> {
 
     private ListView<T> lvItems;
 
-    public DocumentTable() {
+    public DocTableView() {
         lvItems = new ListView<>();
+        HBox.setHgrow(lvItems, Priority.ALWAYS);
     }
 
     public ListView<T> getItemList() {

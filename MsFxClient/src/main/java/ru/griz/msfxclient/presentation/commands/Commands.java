@@ -1,8 +1,8 @@
 package ru.griz.msfxclient.presentation.commands;
 
 import ru.griz.msfxclient.presentation.common.ViewManager;
-import ru.griz.msfxclient.presentation.views.BuyView;
-import ru.griz.msfxclient.presentation.views.BuysView;
+import ru.griz.msfxclient.presentation.views.DocBuyView;
+import ru.griz.msfxclient.presentation.views.JournalBuyView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,8 +27,8 @@ public class Commands {
     // TODO: 07.03.2022 use Builder for Action
     private Commands() {
         map = new HashMap<>();
-        create(CMD_BUY_JOURNAL, "Поставки").setAction(() -> ViewManager.currentView(BuysView.class));
-        create(CMD_BUY_NEW, "Новая поставка").setAction(() -> ViewManager.currentView(BuyView.class));
+        create(CMD_BUY_JOURNAL, "Поставки").setAction(() -> ViewManager.currentView(JournalBuyView.class));
+        create(CMD_BUY_NEW, "Новая поставка").setAction(() -> ViewManager.currentView(DocBuyView.class));
     }
 
     private Command create(String cmdName, String title) {
