@@ -1,15 +1,12 @@
 package ru.griz.msfxclient.presentation;
 
-import com.google.gson.Gson;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import ru.griz.msfxclient.data.entities.Product;
+import ru.griz.msfxclient.data.entities.ProductEntity;
 import ru.griz.msfxclient.data.rest.RestClient;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,8 +23,8 @@ public class RestView extends VBox {
 
     private void btnGetOnAction(ActionEvent actionEvent) {
         RestClient client = RestClient.instance();
-        List<Product> products = client.getList("/products/", Product.class);
-        String s = products.stream().map(p -> p.toString()).collect(Collectors.joining(",\n", "[", "]"));
+        List<ProductEntity> productEntities = client.getList("/products/", ProductEntity.class);
+        String s = productEntities.stream().map(p -> p.toString()).collect(Collectors.joining(",\n", "[", "]"));
         lblResponse.setText(s);
 
 //        Product product = new Product();

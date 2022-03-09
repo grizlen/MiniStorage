@@ -4,13 +4,12 @@ import ru.griz.msfxclient.data.cache.db.EntityMapper;
 import ru.griz.msfxclient.data.cache.db.FieldValues;
 import ru.griz.msfxclient.data.cache.db.Repository;
 import ru.griz.msfxclient.data.cache.db.tables.DocBuyItemsTable;
-import ru.griz.msfxclient.data.cache.db.tables.DocBuysTable;
-import ru.griz.msfxclient.data.entities.BuyHeaderEntity;
 import ru.griz.msfxclient.data.entities.BuyItemEntity;
 
 import java.sql.ResultSet;
+import java.util.List;
 
-public class BuyItemsrRepository extends Repository<BuyItemEntity> implements DocBuyItemsTable {
+public class BuyItemsRepository extends Repository<BuyItemEntity> implements DocBuyItemsTable {
 
     private EntityMapper<BuyItemEntity> mapper = new EntityMapper<>() {
         @Override
@@ -41,5 +40,9 @@ public class BuyItemsrRepository extends Repository<BuyItemEntity> implements Do
     @Override
     protected EntityMapper<BuyItemEntity> mapper() {
         return mapper;
+    }
+
+    public List<BuyItemEntity> findByDocId(Long docId) {
+        return queries.select(TABLE).where(COLUMN_DOC_ID + " = " + docId).run(mapper);
     }
 }

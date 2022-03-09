@@ -50,10 +50,15 @@ public class SqlQueries {
             StringBuilder result = new StringBuilder("SELECT * FROM ")
                     .append(table);
             if (where != null) {
-                result.append(where);
+                result.append(" WHERE ").append(where);
             }
             result.append(";");
             return result.toString();
+        }
+
+        public Select where(String where) {
+            this.where = where;
+            return this;
         }
 
         public Select whereId(Long id) {

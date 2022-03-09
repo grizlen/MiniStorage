@@ -59,24 +59,42 @@ public class DocBuyModel {
     }
 
     public static class BuyItem {
+        private Long id;
         private DocBuyModel document;
-        private ProductItem product;
+        private Long productId;
+        private int count;
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public Long getId() {
+            return id;
+        }
 
         public Long getDocId() {
             return document == null? null : document.id;
         }
 
-        public void setProduct(ProductItem product) {
-            this.product = product;
+        public void setProductId(Long productId) {
+            this.productId = productId;
         }
 
-        public ProductItem getProduct() {
-            return product;
+        public Long getProductId() {
+            return productId;
+        }
+
+        public void setCount(int count) {
+            this.count = count;
+        }
+
+        public int getCount() {
+            return count;
         }
 
         @Override
         public String toString() {
-            return "doc = " + getDocId() + ", product = " + product;
+            return "doc = " + getDocId() + ", product = " + productId + ", count = " + count;
         }
     }
 }

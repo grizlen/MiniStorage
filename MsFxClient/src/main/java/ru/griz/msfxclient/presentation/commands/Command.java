@@ -33,6 +33,7 @@ public class Command {
 
     public void accept() {
         if (action != null) {
+            System.out.println("Command: " + title);
             action.exec();
         }
     }

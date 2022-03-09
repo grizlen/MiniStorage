@@ -1,5 +1,6 @@
 package ru.griz.msfxclient.data.cache.db;
 
+import ru.griz.msfxclient.data.cache.db.tables.DbConfig;
 import ru.griz.msfxclient.data.cache.db.tables.DocBuyItemsTable;
 import ru.griz.msfxclient.data.cache.db.tables.DocBuysTable;
 import ru.griz.msfxclient.data.cache.db.tables.DocumentsTable;
@@ -24,19 +25,13 @@ public class SqLiteDb {
     }
 
     private void init() {
-        String[] drop = new String[] {
-                DocumentsTable.SQL_DROP, DocBuysTable.SQL_DROP, DocBuyItemsTable.SQL_DROP};
-        String[] create = new String[] {
-                DocumentsTable.SQL_CREATE, DocBuysTable.SQL_CREATE, DocBuyItemsTable.SQL_CREATE};
-        String[] init = new String[] {
-                DocumentsTable.SQL_INIT, DocBuysTable.SQL_INIT, DocBuyItemsTable.SQL_INIT};
-        for (String sql : drop) {
+        for (String sql : DbConfig.DROP) {
             sqliteConnection.execute(sql);
         }
-        for (String sql : create) {
+        for (String sql : DbConfig.CREATE) {
             sqliteConnection.execute(sql);
         }
-        for (String sql : init) {
+        for (String sql : DbConfig.INIT) {
             sqliteConnection.execute(sql);
         }
     }

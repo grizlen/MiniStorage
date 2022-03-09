@@ -1,19 +1,9 @@
 package ru.griz.msfxclient.data.entities;
 
-public class Product {
-
-    private Integer id;
+public class ProductEntity extends Entity {
     private String name;
 
-    public Product() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
+    public ProductEntity() {
     }
 
     public String getName() {

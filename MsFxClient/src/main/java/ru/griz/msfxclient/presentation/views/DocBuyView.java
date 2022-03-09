@@ -62,7 +62,7 @@ public class DocBuyView extends DocView<DocBuyModel, DocBuyModel.BuyItem> {
 
     @Override
     protected void fillTable() {
-        if (model != null) {
+        if (model != null && model.getId() != null) {
             table.setItems(controller.getItems(model));
         }
     }
