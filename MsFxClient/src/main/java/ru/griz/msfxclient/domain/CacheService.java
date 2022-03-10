@@ -11,7 +11,6 @@ import ru.griz.msfxclient.data.entities.BuyItemEntity;
 import ru.griz.msfxclient.data.entities.DocumentsEntity;
 import ru.griz.msfxclient.data.entities.ProductEntity;
 import ru.griz.msfxclient.data.rest.RestClient;
-import ru.griz.msfxclient.domain.models.DocBuyModel;
 
 import java.util.List;
 

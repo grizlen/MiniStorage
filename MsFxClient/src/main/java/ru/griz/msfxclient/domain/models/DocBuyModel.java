@@ -42,7 +42,14 @@ public class DocBuyModel {
 
     public void addItem(BuyItem item) {
         item.document = this;
-        items.add(item);
+        if (items.stream().noneMatch(i -> i.productId.equals(item.productId))) {
+            items.add(item);
+        } else {
+            items.stream()
+                    .filter(i -> i.productId.equals(item.productId))
+                    .findAny()
+                    .ifPresent(i -> i.setCount(i.count + item.count));
+        }
     }
     public void setItems(List<BuyItem> source) {
         items.clear();
