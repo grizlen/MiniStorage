@@ -1,29 +1,55 @@
 package ru.griz.msfxclient.presentation.dialogs;
 
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import ru.griz.msfxclient.domain.controllers.Controllers;
 import ru.griz.msfxclient.domain.controllers.ProductController;
 import ru.griz.msfxclient.domain.models.ProductItem;
 
 import java.util.List;
 
-public class SelectProductDialog {
+public class SelectProductDialog extends ItemDialog<ProductItem>{
 
-    private final Dialog<ProductItem> dialog;
-    private final ListView<ProductItem> lvProducts;
-    private ProductItem result;
+    private ListView<ProductItem> lvProducts;
 
     public SelectProductDialog() {
-        dialog = new Dialog<>();
+        dialog.getDialogPane().setContent(createContent());
+    }
+
+    @Override
+    protected ButtonType[] buttonTypes() {
+        return new ButtonType[] {ButtonType.CANCEL};
+    }
+
+    @Override
+    protected ProductItem resultConverter(ButtonType buttonType) {
+        return null;
+    }
+
+    @Override
+    protected Node createContent() {
+        VBox result = new VBox();
+        result.setSpacing(4);
         lvProducts = new ListView<>();
         loadItems();
         lvProducts.setOnMouseClicked(this::onSelectProduct);
-        dialog.getDialogPane().setContent(lvProducts);
-        dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
-        dialog.setResultConverter(buttonType -> null);
+
+        Button btnNew = new Button("New");
+        btnNew.setOnAction(event -> {
+            NewProductDialog dialogNew = new NewProductDialog();
+            if (dialogNew.execute()) {
+                lvProducts.getItems().add(dialogNew.result);
+            }
+        });
+
+        result.getChildren().addAll(btnNew, lvProducts);
+        return result;
     }
 
     private void loadItems() {
@@ -36,19 +62,10 @@ public class SelectProductDialog {
         if (mouseEvent.getClickCount() != 2) {
             return;
         }
-        ProductItem result = lvProducts.getSelectionModel().getSelectedItem();
-        if (result != null) {
-            dialog.setResult(result);
+        ProductItem item = lvProducts.getSelectionModel().getSelectedItem();
+        if (item != null) {
+            dialog.setResult(item);
             dialog.close();
         }
-    }
-
-    public boolean execute() {
-        result = dialog.showAndWait().orElse(null);
-        return result != null;
-    }
-
-    public ProductItem result() {
-        return result;
     }
 }

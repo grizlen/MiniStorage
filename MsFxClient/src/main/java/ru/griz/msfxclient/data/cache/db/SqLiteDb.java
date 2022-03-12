@@ -12,19 +12,24 @@ import java.util.List;
 public class SqLiteDb {
     private static final String DB_NAME = "jdbc:sqlite:cache.db";
 
+    private static final boolean UPGRADE = false;
+
     private final SqliteConnection sqliteConnection;
 
     public SqLiteDb() {
         try {
             Class.forName("org.sqlite.JDBC");
             sqliteConnection = new SqliteConnection();
-            init();
+            if (UPGRADE) {
+                init();
+            }
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
     private void init() {
+        System.out.println("Upgrade db");
         for (String sql : DbConfig.DROP) {
             sqliteConnection.execute(sql);
         }

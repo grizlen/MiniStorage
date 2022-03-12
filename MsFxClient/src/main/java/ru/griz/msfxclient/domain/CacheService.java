@@ -10,7 +10,7 @@ import ru.griz.msfxclient.data.entities.BuyHeaderEntity;
 import ru.griz.msfxclient.data.entities.BuyItemEntity;
 import ru.griz.msfxclient.data.entities.DocumentsEntity;
 import ru.griz.msfxclient.data.entities.ProductEntity;
-import ru.griz.msfxclient.data.rest.RestClient;
+import ru.griz.msfxclient.data.rest.RestApi;
 
 import java.util.List;
 
@@ -23,17 +23,19 @@ public class CacheService {
     }
 
     public static void checkUpdates() {
+        System.out.println("Synchronization start...");
         self().loadProducts();
         self.loadDocuments();
     }
 
-    private final RestClient restClient = RestClient.instance();
+    private final RestApi restClient = RestApi.instance();
 
     private void loadProducts() {
+        System.out.println("Load products");
         ProductsRepository productsRepository = DbContext.repository(ProductsRepository.class);
 
         List<ProductEntity> dbList = productsRepository.findAll();
-        List<ProductEntity> serverList = restClient.getList("/products/", ProductEntity.class);
+        List<ProductEntity> serverList = restClient.getAllProducts();
 
         for (ProductEntity entity: serverList) {
             Long serverId = entity.getId();
@@ -47,10 +49,11 @@ public class CacheService {
     }
 
     private void loadDocuments() {
+        System.out.println("Load documents");
         DocumentsRepository documentsRepository = DbContext.repository(DocumentsRepository.class);
 
         List<DocumentsEntity> dbList = documentsRepository.findAll();
-        List<DocumentsEntity> serverList = restClient.getList("/documents/", DocumentsEntity.class);
+        List<DocumentsEntity> serverList = restClient.getAllDocs();
 
         for (DocumentsEntity entity: serverList) {
             Long serverId = entity.getId();
@@ -67,7 +70,7 @@ public class CacheService {
     }
 
     private void loadBuyDoc(Long serverId, Long newDocId) {
-        BuyHeaderEntity buyHeaderEntity = restClient.get("/buy/" + serverId, BuyHeaderEntity.class);
+        BuyHeaderEntity buyHeaderEntity = restClient.getDocBuy(serverId);
         buyHeaderEntity.setId(newDocId);
         buyHeaderEntity.setServerId(serverId);
         BuysHeaderRepository headerRepository = DbContext.repository(BuysHeaderRepository.class);
@@ -75,7 +78,7 @@ public class CacheService {
 
         BuyItemsRepository itemsRepository = DbContext.repository(BuyItemsRepository.class);
         List<BuyItemEntity> dbList = itemsRepository.findAll();
-        List<BuyItemEntity> serverList = restClient.getList("/buy/items/" + serverId, BuyItemEntity.class);
+        List<BuyItemEntity> serverList = restClient.getDocBuyItems(serverId);
         for (BuyItemEntity item: serverList) {
             Long itemServerId = item.getId();
             if (dbList.stream().noneMatch(i -> itemServerId.equals(i.getServerId()))) {

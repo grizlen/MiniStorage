@@ -16,6 +16,7 @@ public class JsonClient {
     }
 
     public String get(String path) {
+        System.out.println("REST GET: " + path);
         String result;
         try {
             HttpRequest request = HttpRequest.newBuilder()
@@ -27,6 +28,7 @@ public class JsonClient {
             result = e.getClass() + ": " + e.getMessage();
             System.out.println(result);
         }
+        System.out.println("Response\n" + result);
         return result;
     }
 }
