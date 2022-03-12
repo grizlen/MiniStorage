@@ -20,11 +20,6 @@ public class RestClient {
         return mapper.fromJson(response, tClass);
     }
 
-    protected <T> T[] getArray(String path, Class<T[]> tClass) {
-        String response = client.get(path);
-        return mapper.arrayFromJson(response, tClass);
-    }
-
     protected <T> List<T> getList(String path, Class<T> itemClass) {
         String response = client.get(path);
         return mapper.listFromJson(response, itemClass);

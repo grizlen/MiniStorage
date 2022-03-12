@@ -33,10 +33,11 @@ public class MainView extends VBox {
         if (view == null) {
             return;
         }
-        Parent content = view.getContainer();
+        Parent content = view.container();
         if (content != null) {
             container.getChildren().add(content);
             navPanel.setTitle(view.title());
+            navPanel.commands(view.navCommands());
             view.open();
         }
     }

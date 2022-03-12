@@ -11,7 +11,6 @@ public class FxClientApp extends Application {
     @Override
     public void start(Stage stage) {
         CacheService.checkUpdates();
-        ViewManager.init();
         ViewManager.currentView(JournalBuyView.class);
         Scene scene = new Scene(ViewManager.mainView(), 320, 240);
         stage.setTitle("Mini storage");

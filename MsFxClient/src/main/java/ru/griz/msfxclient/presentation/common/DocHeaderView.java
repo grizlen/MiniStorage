@@ -13,7 +13,7 @@ public class DocHeaderView {
     private final Label lblDate;
     private final HBox container;
 
-    public DocHeaderView() {
+    DocHeaderView() {
         container = new HBox();
         lblDate = new Label();
         container.getChildren().add(lblDate);

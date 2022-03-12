@@ -10,7 +10,7 @@ public class DocTableView<T> {
 
     private ListView<T> lvItems;
 
-    public DocTableView() {
+    DocTableView() {
         lvItems = new ListView<>();
         HBox.setHgrow(lvItems, Priority.ALWAYS);
     }
@@ -19,6 +19,9 @@ public class DocTableView<T> {
         return lvItems;
     }
 
+    public void clearItems() {
+        lvItems.getItems().clear();
+    }
     public void setItems(List<T> items) {
         lvItems.getItems().clear();
         lvItems.getItems().addAll(items);

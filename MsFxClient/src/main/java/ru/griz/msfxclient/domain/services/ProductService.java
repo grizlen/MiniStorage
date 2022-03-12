@@ -1,4 +1,4 @@
-package ru.griz.msfxclient.domain.controllers;
+package ru.griz.msfxclient.domain.services;
 
 import ru.griz.msfxclient.data.cache.DbContext;
 import ru.griz.msfxclient.data.cache.repositories.ProductsRepository;
@@ -7,7 +7,7 @@ import ru.griz.msfxclient.domain.models.ProductItem;
 
 import java.util.List;
 
-public class ProductController {
+public class ProductService {
 
     private final ProductsRepository repository = DbContext.repository(ProductsRepository.class);
 

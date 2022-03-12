@@ -1,4 +1,4 @@
-package ru.griz.msfxclient.domain.controllers;
+package ru.griz.msfxclient.domain.services;
 
 import java.util.List;
 

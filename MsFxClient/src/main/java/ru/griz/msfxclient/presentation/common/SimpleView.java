@@ -13,7 +13,7 @@ public abstract class SimpleView implements View{
     }
 
     @Override
-    public VBox getContainer() {
+    public VBox container() {
         return container;
     }
 }

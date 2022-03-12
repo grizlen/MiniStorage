@@ -1,28 +1,26 @@
 package ru.griz.msfxclient.presentation.views;
 
-import javafx.scene.input.MouseEvent;
-import ru.griz.msfxclient.domain.controllers.BuyController;
-import ru.griz.msfxclient.domain.controllers.Controllers;
 import ru.griz.msfxclient.domain.models.DocBuyModel;
+import ru.griz.msfxclient.domain.services.BuyService;
+import ru.griz.msfxclient.domain.services.Services;
+import ru.griz.msfxclient.presentation.commands.Command;
 import ru.griz.msfxclient.presentation.commands.Commands;
 import ru.griz.msfxclient.presentation.common.JournalView;
 import ru.griz.msfxclient.presentation.common.ViewManager;
 
 public class JournalBuyView extends JournalView<DocBuyModel> {
 
-    private final BuyController controller;
+    private final BuyService controller;
 
     public JournalBuyView() {
-        lvData.setOnMouseClicked(this::onLwDataClick);
-        controller = Controllers.get(BuyController.class);
-    }
-
-    private void onLwDataClick(MouseEvent mouseEvent) {
-        DocBuyModel item = selectedItem();
-        if ((mouseEvent.getClickCount() == 2) && (item != null)) {
-            DocBuyView view = ViewManager.currentView(DocBuyView.class);
-            view.loadModel(item);
-        }
+        lvData.setOnMouseClicked(event -> {
+            DocBuyModel item = selectedItem();
+            if ((event.getClickCount() == 2) && (item != null)) {
+                DocBuyView view = ViewManager.currentView(DocBuyView.class);
+                view.loadModel(item);
+            }
+        });
+        controller = Services.get(BuyService.class);
     }
 
     @Override
@@ -31,8 +29,12 @@ public class JournalBuyView extends JournalView<DocBuyModel> {
     }
 
     @Override
+    public Command[] navCommands() {
+        return new Command[] {Commands.get(Commands.CMD_BUY_NEW)};
+    }
+
+    @Override
     public void open() {
-        ViewManager.setNavCommands(Commands.get(Commands.CMD_BUY_NEW));
         loadData();
     }
 

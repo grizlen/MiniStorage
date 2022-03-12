@@ -24,8 +24,13 @@ public class CacheService {
 
     public static void checkUpdates() {
         System.out.println("Synchronization start...");
-        self().loadProducts();
-        self.loadDocuments();
+        try {
+            self().loadProducts();
+            self.loadDocuments();
+        } catch (Exception e) {
+            System.out.println("Synchronization failed.");
+            e.printStackTrace();
+        }
     }
 
     private final RestApi restClient = RestApi.instance();
