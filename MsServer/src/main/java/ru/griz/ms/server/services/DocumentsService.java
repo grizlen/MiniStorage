@@ -2,16 +2,24 @@ package ru.griz.ms.server.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.griz.ms.server.dtos.DocBuyDTO;
 import ru.griz.ms.server.entities.*;
 import ru.griz.ms.server.exceptions.ResourceNotFoundException;
 import ru.griz.ms.server.repositories.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.function.Supplier;
 
 @Service
 @RequiredArgsConstructor
 public class DocumentsService {
+
+    private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static String formatDate(Date date) {
+        return formatter.format(date);
+    }
 
     private final DocumentsRepository documentsRepository;
     private final BuyRepository buyRepository;
@@ -20,6 +28,7 @@ public class DocumentsService {
     private final SaleItemRepository saleItemRepository;
     private final ReturnRepository returnRepository;
     private final ReturnItemRepository returnItemRepository;
+    private final ProductService productService;
 
     private Supplier<ResourceNotFoundException> documentNotFound(Long id) {
         return () -> new ResourceNotFoundException("Document: " + id + " not found");
@@ -40,9 +49,22 @@ public class DocumentsService {
         return buyRepository.findAll();
     }
 
-    public BuyHeader getByIdDocBuy(Long id) {
-        return buyRepository.findById(id)
+    public DocBuyDTO getByIdDocBuy(Long id) {
+        BuyHeader header = buyRepository.findById(id)
                 .orElseThrow(documentNotFound(id));
+        List<BuyItem> items = getDocBuyItems(header.getId());
+        DocBuyDTO result = new DocBuyDTO();
+        result.setId(header.getId());
+        result.setDate(formatDate(header.getDate()));
+        items.forEach(i -> {
+            DocBuyDTO.BuyItemDTO item = new DocBuyDTO.BuyItemDTO();
+            item.setId(i.getId());
+            item.setProductId(i.getProductId());
+            item.setProductName(productService.getById(i.getProductId()).getName());
+            item.setCount(i.getCount());
+            result.getItems().add(item);
+        });
+        return result;
     }
 
     public List<BuyItem> getDocBuyItems(long docId) {

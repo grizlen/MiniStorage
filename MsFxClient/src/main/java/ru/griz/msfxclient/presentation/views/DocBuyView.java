@@ -1,9 +1,10 @@
 package ru.griz.msfxclient.presentation.views;
 
 import javafx.scene.control.Button;
+import ru.griz.msfxclient.buy.JournalBuyView;
 import ru.griz.msfxclient.domain.models.DocBuyModel;
-import ru.griz.msfxclient.domain.services.BuyService;
-import ru.griz.msfxclient.domain.services.Services;
+import ru.griz.msfxclient.buy.BuyController;
+import ru.griz.msfxclient.domain.services.Controllers;
 import ru.griz.msfxclient.presentation.commands.Command;
 import ru.griz.msfxclient.presentation.commands.Commands;
 import ru.griz.msfxclient.presentation.common.*;
@@ -12,10 +13,10 @@ import ru.griz.msfxclient.presentation.dialogs.SelectProductDialog;
 public class DocBuyView extends DocView<DocBuyModel, DocBuyModel.BuyItem> {
 
     private final Command cmdSave;
-    private final BuyService service;
+    private final BuyController service;
 
     public DocBuyView() {
-        service = Services.get(BuyService.class);
+        service = Controllers.get(BuyController.class);
         cmdSave = Command.builder("save", "Сохранить")
                 .action(() -> {
                     service.save(model);

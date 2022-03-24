@@ -1,16 +1,16 @@
-package ru.griz.msfxclient.presentation.views;
+package ru.griz.msfxclient.buy;
 
 import ru.griz.msfxclient.domain.models.DocBuyModel;
-import ru.griz.msfxclient.domain.services.BuyService;
-import ru.griz.msfxclient.domain.services.Services;
+import ru.griz.msfxclient.domain.services.Controllers;
 import ru.griz.msfxclient.presentation.commands.Command;
 import ru.griz.msfxclient.presentation.commands.Commands;
 import ru.griz.msfxclient.presentation.common.JournalView;
 import ru.griz.msfxclient.presentation.common.ViewManager;
+import ru.griz.msfxclient.presentation.views.DocBuyView;
 
 public class JournalBuyView extends JournalView<DocBuyModel> {
 
-    private final BuyService controller;
+    private final BuyController controller;
 
     public JournalBuyView() {
         lvData.setOnMouseClicked(event -> {
@@ -20,7 +20,7 @@ public class JournalBuyView extends JournalView<DocBuyModel> {
                 view.loadModel(item);
             }
         });
-        controller = Services.get(BuyService.class);
+        controller = Controllers.get(BuyController.class);
     }
 
     @Override

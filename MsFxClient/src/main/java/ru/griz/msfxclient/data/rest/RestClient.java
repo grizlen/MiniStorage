@@ -24,4 +24,10 @@ public class RestClient {
         String response = client.get(path);
         return mapper.listFromJson(response, itemClass);
     }
+
+    protected <T> T post(String path, T item, Class<T> tClass) {
+        String request = mapper.toJson(item);
+        String response = client.post(path, request);
+        return mapper.fromJson(response, tClass);
+    }
 }

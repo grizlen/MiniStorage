@@ -22,4 +22,8 @@ public class ProductService {
         Product product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product with Id=" + id + " not found."));
         return product;
     }
+
+    public Product save(Product product) {
+        return productRepository.save(product);
+    }
 }

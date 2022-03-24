@@ -11,11 +11,14 @@ public class RestApi extends RestClient {
 
     private static RestApi self;
 
+//    private static final String CLIENT_PATH = "https://my-simplecrm.herokuapp.com/api";
     private static final String CLIENT_PATH = "http://localhost/api";
     private static final String API_GET_ALL_PRODUCTS = "/products/";
     private static final String API_GET_ALL_DOCUMENTS = "/doc/";
     private static final String API_GET_DOC_BUY = "/doc/buy/";
     private static final String API_GET_DOC_BUY_ITEMS = "/doc/buy/items/";
+    private static final String API_POST_PRODUCT = "/products/";
+    private static final String API_POST_DOCUMENT = "/doc/";
 
 
     public static RestApi instance() {
@@ -40,5 +43,13 @@ public class RestApi extends RestClient {
 
     public List<BuyItemEntity> getDocBuyItems(Long docId) {
         return getList(API_GET_DOC_BUY_ITEMS + docId, BuyItemEntity.class);
+    }
+
+    public ProductEntity postProduct(ProductEntity entity) {
+        return post(API_POST_PRODUCT, entity, ProductEntity.class);
+    }
+
+    public DocumentsEntity postDocument(DocumentsEntity entity) {
+        return post(API_POST_DOCUMENT, entity, DocumentsEntity.class);
     }
 }

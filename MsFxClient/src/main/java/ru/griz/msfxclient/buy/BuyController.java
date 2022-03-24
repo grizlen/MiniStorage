@@ -1,4 +1,4 @@
-package ru.griz.msfxclient.domain.services;
+package ru.griz.msfxclient.buy;
 
 import ru.griz.msfxclient.data.cache.DbContext;
 import ru.griz.msfxclient.data.cache.db.tables.DocumentsTable;
@@ -9,10 +9,12 @@ import ru.griz.msfxclient.data.entities.BuyHeaderEntity;
 import ru.griz.msfxclient.data.entities.BuyItemEntity;
 import ru.griz.msfxclient.data.entities.DocumentsEntity;
 import ru.griz.msfxclient.domain.models.DocBuyModel;
+import ru.griz.msfxclient.domain.services.Converter;
+import ru.griz.msfxclient.domain.services.ListConverter;
 
 import java.util.List;
 
-public class BuyService {
+public class BuyController {
 
     private final DocumentsRepository documentsRepository = DbContext.repository(DocumentsRepository.class);
     private final BuysHeaderRepository headerRepository = DbContext.repository(BuysHeaderRepository.class);

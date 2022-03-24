@@ -26,4 +26,8 @@ public class JsonMapper {
         Type type = TypeToken.getParameterized(ArrayList.class, itemClass).getType();
         return gson.fromJson(json, type);
     }
+
+    public <T> String toJson(T item) {
+        return gson.toJson(item);
+    }
 }

@@ -2,7 +2,7 @@ package ru.griz.msfxclient.presentation.commands;
 
 import ru.griz.msfxclient.presentation.common.ViewManager;
 import ru.griz.msfxclient.presentation.views.DocBuyView;
-import ru.griz.msfxclient.presentation.views.JournalBuyView;
+import ru.griz.msfxclient.buy.JournalBuyView;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -5,7 +5,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import ru.griz.msfxclient.domain.CacheService;
 import ru.griz.msfxclient.presentation.common.ViewManager;
-import ru.griz.msfxclient.presentation.views.JournalBuyView;
+import ru.griz.msfxclient.buy.JournalBuyView;
 
 public class FxClientApp extends Application {
     @Override

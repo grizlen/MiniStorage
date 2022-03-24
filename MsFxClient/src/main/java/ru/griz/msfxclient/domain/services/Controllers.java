@@ -3,12 +3,12 @@ package ru.griz.msfxclient.domain.services;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Services {
+public class Controllers {
 
-    private static Services self;
+    private static Controllers self;
 
-    private static Services self() {
-        return self == null ? self = new Services() : self;
+    private static Controllers self() {
+        return self == null ? self = new Controllers() : self;
     }
 
     public static <T> T get(Class<T> tClass) {
