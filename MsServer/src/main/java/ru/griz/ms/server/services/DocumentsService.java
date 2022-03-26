@@ -1,7 +1,9 @@
 package ru.griz.ms.server.services;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.griz.ms.server.dtos.DocBuyDTO;
 import ru.griz.ms.server.entities.*;
 import ru.griz.ms.server.exceptions.ResourceNotFoundException;
@@ -11,9 +13,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class DocumentsService {
 
     private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -55,10 +59,9 @@ public class DocumentsService {
         List<BuyItem> items = getDocBuyItems(header.getId());
         DocBuyDTO result = new DocBuyDTO();
         result.setId(header.getId());
-        result.setDate(formatDate(header.getDate()));
+        result.setDate(header.getDate());
         items.forEach(i -> {
             DocBuyDTO.BuyItemDTO item = new DocBuyDTO.BuyItemDTO();
-            item.setId(i.getId());
             item.setProductId(i.getProductId());
             item.setProductName(productService.getById(i.getProductId()).getName());
             item.setCount(i.getCount());
@@ -67,6 +70,37 @@ public class DocumentsService {
         return result;
     }
 
+    @Transactional
+    public DocBuyDTO saveDocBuy(DocBuyDTO doc) {
+        if (doc.getId() != null) {
+            buyItemRepository.deleteByDocId(doc.getId());
+        }
+        Document document = new Document();
+        document.setId(doc.getId());
+        document.setType("BUY");
+        document = documentsRepository.save(document);
+
+        Long docId = document.getId();
+
+        BuyHeader header = new BuyHeader();
+        header.setId(docId);
+        header.setDate(doc.getDate());
+        header = buyRepository.save(header);
+
+        List<BuyItem> buyItems = doc.getItems().stream()
+                .map(i -> {
+                    BuyItem item = new BuyItem();
+                    item.setDocId(docId);
+                    item.setId(null);
+                    item.setProductId(i.getProductId());
+                    item.setCount(i.getCount());
+                    return item;
+                })
+                .collect(Collectors.toList());
+        buyItemRepository.saveAll(buyItems);
+
+        return getByIdDocBuy(docId);
+    }
     public List<BuyItem> getDocBuyItems(long docId) {
         return buyItemRepository.findAllByDocId(docId);
     }

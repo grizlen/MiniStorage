@@ -1,10 +1,7 @@
 package ru.griz.ms.server.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.griz.ms.server.dtos.DocBuyDTO;
 import ru.griz.ms.server.entities.*;
 import ru.griz.ms.server.services.DocumentsService;
@@ -38,6 +35,11 @@ public class DocumentsController {
     @GetMapping("/buy/{id}")
     public DocBuyDTO getByIdDocBuy(@PathVariable Long id) {
         return documentsService.getByIdDocBuy(id);
+    }
+
+    @PostMapping("/buy/")
+    public DocBuyDTO postDocBuy(@RequestBody DocBuyDTO doc) {
+        return documentsService.saveDocBuy(doc);
     }
 
     @GetMapping("/buy/items/{docId}")

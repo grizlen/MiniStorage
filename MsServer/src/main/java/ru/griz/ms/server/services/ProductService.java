@@ -7,6 +7,7 @@ import ru.griz.ms.server.exceptions.ResourceNotFoundException;
 import ru.griz.ms.server.repositories.ProductRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +25,12 @@ public class ProductService {
     }
 
     public Product save(Product product) {
+        if (product.getId() == null) {
+            Optional<Product> optional = productRepository.findByName(product.getName());
+            if (optional.isPresent()) {
+                return optional.get();
+            }
+        }
         return productRepository.save(product);
     }
 }

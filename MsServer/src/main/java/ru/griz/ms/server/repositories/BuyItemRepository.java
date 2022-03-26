@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface BuyItemRepository extends JpaRepository<BuyItem, Long> {
     List<BuyItem> findAllByDocId(Long docId);
+    void deleteByDocId(Long docId);
 }

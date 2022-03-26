@@ -4,13 +4,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Getter
 @Setter
 public class DocBuyDTO {
     private Long id;
-    private String date;
+    private Date date;
     private List<BuyItemDTO> items;
 
     public DocBuyDTO() {
@@ -20,7 +21,6 @@ public class DocBuyDTO {
     @Getter
     @Setter
     public static class BuyItemDTO {
-        Long id;
         Long productId;
         String productName;
         Integer count;

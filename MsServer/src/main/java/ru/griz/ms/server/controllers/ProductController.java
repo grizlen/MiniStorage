@@ -26,7 +26,9 @@ public class ProductController {
 
     @PostMapping("/")
     public Product postProduct(@RequestBody Product product) {
-        product.setId(null);
+        if (product.getName().isEmpty()) {
+            return null;
+        }
         return productService.save(product);
     }
 }
