@@ -9,8 +9,6 @@ import ru.griz.ms.server.entities.*;
 import ru.griz.ms.server.exceptions.ResourceNotFoundException;
 import ru.griz.ms.server.repositories.*;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -19,11 +17,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 public class DocumentsService {
-
-    private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    private static String formatDate(Date date) {
-        return formatter.format(date);
-    }
 
     private final DocumentsRepository documentsRepository;
     private final BuyRepository buyRepository;
@@ -85,7 +78,7 @@ public class DocumentsService {
         BuyHeader header = new BuyHeader();
         header.setId(docId);
         header.setDate(doc.getDate());
-        header = buyRepository.save(header);
+        buyRepository.save(header);
 
         List<BuyItem> buyItems = doc.getItems().stream()
                 .map(i -> {
