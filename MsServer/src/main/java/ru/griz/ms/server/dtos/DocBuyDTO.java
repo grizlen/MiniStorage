@@ -14,8 +14,16 @@ public class DocBuyDTO {
     private Date date;
     private List<BuyItemDTO> items;
 
-    public DocBuyDTO() {
+    private DocBuyDTO() {
         items = new ArrayList<>();
+    }
+
+    public static DocBuyDtoBuilder builder() {
+        return new DocBuyDtoBuilder();
+    }
+
+    public static BuyItemDtoBuilder itemBuilder() {
+        return new BuyItemDtoBuilder();
     }
 
     @Getter
@@ -24,5 +32,64 @@ public class DocBuyDTO {
         Long productId;
         String productName;
         Integer count;
+
+        private BuyItemDTO() {
+        }
+    }
+
+    public static class DocBuyDtoBuilder {
+
+        private final DocBuyDTO dto;
+
+        private DocBuyDtoBuilder() {
+            dto = new DocBuyDTO();
+        }
+
+        public DocBuyDtoBuilder id(Long id) {
+            dto.id = id;
+            return this;
+        }
+
+        public DocBuyDtoBuilder date(Date date) {
+            dto.date = date;
+            return this;
+        }
+
+        public DocBuyDtoBuilder items(List<BuyItemDTO> items) {
+            dto.items.addAll(items);
+            return this;
+        }
+
+        public DocBuyDTO build() {
+            return dto;
+        }
+    }
+
+    public static class BuyItemDtoBuilder {
+
+        private final BuyItemDTO dto;
+
+        private BuyItemDtoBuilder() {
+            dto = new BuyItemDTO();
+        }
+
+        public BuyItemDtoBuilder productId(Long productId) {
+            dto.productId = productId;
+            return this;
+        }
+
+        public BuyItemDtoBuilder productName(String productName) {
+            dto.productName = productName;
+            return this;
+        }
+
+        public BuyItemDtoBuilder count(int count) {
+            dto.count = count;
+            return this;
+        }
+
+        public BuyItemDTO build() {
+            return dto;
+        }
     }
 }
