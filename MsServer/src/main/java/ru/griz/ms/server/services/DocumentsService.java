@@ -49,18 +49,21 @@ public class DocumentsService {
     public DocBuyDTO getByIdDocBuy(Long id) {
         BuyHeader header = buyRepository.findById(id)
                 .orElseThrow(documentNotFound(id));
-        List<BuyItem> items = getDocBuyItems(header.getId());
-        DocBuyDTO result = new DocBuyDTO();
-        result.setId(header.getId());
-        result.setDate(header.getDate());
-        items.forEach(i -> {
-            DocBuyDTO.BuyItemDTO item = new DocBuyDTO.BuyItemDTO();
-            item.setProductId(i.getProductId());
-            item.setProductName(productService.getById(i.getProductId()).getName());
-            item.setCount(i.getCount());
-            result.getItems().add(item);
-        });
-        return result;
+        return DocBuyDTO.builder()
+                .id(header.getId())
+                .date(header.getDate())
+                .items(
+                        getDocBuyItems(header.getId()).stream()
+                                .map(item ->
+                                        DocBuyDTO.itemBuilder()
+                                                .productId(item.getProductId())
+                                                .productName(productService.getById(item.getProductId()).getName())
+                                                .count(item.getCount())
+                                                .build()
+                                )
+                                .collect(Collectors.toList())
+                )
+                .build();
     }
 
     @Transactional
