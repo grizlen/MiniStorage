@@ -1,13 +1,15 @@
 package ru.griz.ms.server.services;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.griz.ms.server.dtos.DocBuyDTO;
-import ru.griz.ms.server.entities.*;
+import ru.griz.ms.server.entities.BuyHeader;
+import ru.griz.ms.server.entities.BuyItem;
+import ru.griz.ms.server.entities.Document;
 import ru.griz.ms.server.exceptions.ResourceNotFoundException;
-import ru.griz.ms.server.repositories.*;
+import ru.griz.ms.server.repositories.BuyItemRepository;
+import ru.griz.ms.server.repositories.BuyRepository;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -15,45 +17,29 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
-public class DocumentsService {
+public class DocBuyService {
 
-    private final DocumentsRepository documentsRepository;
     private final BuyRepository buyRepository;
     private final BuyItemRepository buyItemRepository;
-    private final SaleRepository saleRepository;
-    private final SaleItemRepository saleItemRepository;
-    private final ReturnRepository returnRepository;
-    private final ReturnItemRepository returnItemRepository;
+    private final DocumentService documentService;
     private final ProductService productService;
 
     private Supplier<ResourceNotFoundException> documentNotFound(Long id) {
         return () -> new ResourceNotFoundException("Document: " + id + " not found");
     }
 
-    // Все документы
-    public List<Document> getAllDocs() {
-        return documentsRepository.findAll();
-    }
-
-    public Document getByIdDoc(Long id) {
-        return documentsRepository.findById(id)
-                .orElseThrow(documentNotFound(id));
-    }
-
-    // Поступления
-    public List<BuyHeader> getAllDocBuys() {
+    public List<BuyHeader> getAll() {
         return buyRepository.findAll();
     }
 
-    public DocBuyDTO getByIdDocBuy(Long id) {
+    public DocBuyDTO getById(Long id) {
         BuyHeader header = buyRepository.findById(id)
                 .orElseThrow(documentNotFound(id));
         return DocBuyDTO.builder()
                 .id(header.getId())
                 .date(header.getDate())
                 .items(
-                        getDocBuyItems(header.getId()).stream()
+                        getItems(header.getId()).stream()
                                 .map(item ->
                                         DocBuyDTO.itemBuilder()
                                                 .productId(item.getProductId())
@@ -71,10 +57,8 @@ public class DocumentsService {
         if (doc.getId() != null) {
             buyItemRepository.deleteByDocId(doc.getId());
         }
-        Document document = new Document();
-        document.setId(doc.getId());
-        document.setType("BUY");
-        document = documentsRepository.save(document);
+
+        Document document = documentService.saveBuy(doc.getId());
 
         Long docId = document.getId();
 
@@ -95,37 +79,11 @@ public class DocumentsService {
                 .collect(Collectors.toList());
         buyItemRepository.saveAll(buyItems);
 
-        return getByIdDocBuy(docId);
+        return getById(docId);
     }
-    public List<BuyItem> getDocBuyItems(long docId) {
+
+    private List<BuyItem> getItems(long docId) {
         return buyItemRepository.findAllByDocId(docId);
     }
 
-    // Отгрузки
-    public List<SaleHeader> getAllDocSales() {
-        return saleRepository.findAll();
-    }
-
-    public SaleHeader getByIdDocSale(Long id) {
-        return saleRepository.findById(id)
-                .orElseThrow(documentNotFound(id));
-    }
-
-    public List<SaleItem> getDocSaleItems(long docId) {
-        return saleItemRepository.findAllByDocId(docId);
-    }
-
-    // Возвраты
-    public List<ReturnHeader> getAllDocReturns() {
-        return returnRepository.findAll();
-    }
-
-    public ReturnHeader getByIdDocReturn(Long id) {
-        return returnRepository.findById(id)
-                .orElseThrow(documentNotFound(id));
-    }
-
-    public List<ReturnItem> getDocReturnItems(long docId) {
-        return returnItemRepository.findAllByDocId(docId);
-    }
 }

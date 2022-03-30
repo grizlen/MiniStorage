@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.griz.ms.server.dtos.DocBuyDTO;
 import ru.griz.ms.server.entities.*;
-import ru.griz.ms.server.services.DocumentsService;
+import ru.griz.ms.server.services.DocumentsFacade;
 
 import java.util.List;
 
@@ -13,70 +13,65 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DocumentsController {
 
-    private final DocumentsService documentsService;
+    private final DocumentsFacade documentsFacade;
 
     // Все документы
     @GetMapping("/")
     public List<Document> getAllDocs() {
-        return documentsService.getAllDocs();
+        return documentsFacade.getAllDocs();
     }
 
     @GetMapping("/{id}")
     public Document getByIdDoc(@PathVariable Long id) {
-        return documentsService.getByIdDoc(id);
+        return documentsFacade.getByIdDoc(id);
     }
 
     // Поступления
     @GetMapping("/buy/")
     public List<BuyHeader> getAllDocBuys() {
-        return documentsService.getAllDocBuys();
+        return documentsFacade.getAllDocBuys();
     }
 
     @GetMapping("/buy/{id}")
     public DocBuyDTO getByIdDocBuy(@PathVariable Long id) {
-        return documentsService.getByIdDocBuy(id);
+        return documentsFacade.getByIdDocBuy(id);
     }
 
     @PostMapping("/buy/")
     public DocBuyDTO postDocBuy(@RequestBody DocBuyDTO doc) {
-        return documentsService.saveDocBuy(doc);
-    }
-
-    @GetMapping("/buy/items/{docId}")
-    public List<BuyItem> getDocBuyItems(@PathVariable long docId) {
-        return documentsService.getDocBuyItems(docId);
+        return documentsFacade.saveDocBuy(doc);
     }
 
     // Отгрузки
     @GetMapping("/sale/")
     public List<SaleHeader> getAllDocSales() {
-        return documentsService.getAllDocSales();
+        return documentsFacade.getAllDocSales();
     }
 
     @GetMapping("/sale/{id}")
     public SaleHeader getByIdDocSale(@PathVariable Long id) {
-        return documentsService.getByIdDocSale(id);
+        return documentsFacade.getByIdDocSale(id);
     }
 
     @GetMapping("/sale/items/{docId}")
     public List<SaleItem> getDocSaleItems(@PathVariable long docId) {
-        return documentsService.getDocSaleItems(docId);
+        return documentsFacade.getDocSaleItems(docId);
     }
 
     // Возвраты
     @GetMapping("/return/")
     public List<ReturnHeader> getAllDocReturns() {
-        return documentsService.getAllDocReturns();
+        return documentsFacade.getAllDocReturns();
     }
 
     @GetMapping("/return/{id}")
     public ReturnHeader getByIdDocReturn(@PathVariable Long id) {
-        return documentsService.getByIdDocReturn(id);
+        return documentsFacade.getByIdDocReturn(id);
     }
 
     @GetMapping("/return/items/{docId}")
     public List<ReturnItem> getDocReturnItems(@PathVariable long docId) {
-        return documentsService.getDocReturnItems(docId);
+        return documentsFacade.getDocReturnItems(docId);
     }
 
 }
