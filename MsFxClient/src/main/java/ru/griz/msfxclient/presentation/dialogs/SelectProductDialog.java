@@ -5,9 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
-import ru.griz.msfxclient.domain.models.ProductItem;
-import ru.griz.msfxclient.domain.services.ProductService;
-import ru.griz.msfxclient.domain.services.Controllers;
+import ru.griz.msfxclient.domain.common.ProductItem;
 
 import java.util.List;
 
@@ -55,8 +53,6 @@ public class SelectProductDialog extends ItemDialog<ProductItem>{
     }
 
     private void loadItems() {
-        ProductService service = Controllers.get(ProductService.class);
-        List<ProductItem> list = service.getAll();
-        lvProducts.getItems().addAll(list);
+//        lvProducts.getItems().addAll(list);
     }
 }

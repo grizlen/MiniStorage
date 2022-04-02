@@ -3,6 +3,7 @@ package ru.griz.ms.server.controllers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.griz.ms.server.dtos.DocBuyDTO;
+import ru.griz.ms.server.dtos.DocSaleDTO;
 import ru.griz.ms.server.entities.*;
 import ru.griz.ms.server.services.DocumentsFacade;
 
@@ -28,7 +29,7 @@ public class DocumentsController {
 
     // Поступления
     @GetMapping("/buy/")
-    public List<BuyHeader> getAllDocBuys() {
+    public List<DocBuyDTO> getAllDocBuys() {
         return documentsFacade.getAllDocBuys();
     }
 
@@ -44,18 +45,18 @@ public class DocumentsController {
 
     // Отгрузки
     @GetMapping("/sale/")
-    public List<SaleHeader> getAllDocSales() {
+    public List<DocSaleDTO> getAllDocSales() {
         return documentsFacade.getAllDocSales();
     }
 
     @GetMapping("/sale/{id}")
-    public SaleHeader getByIdDocSale(@PathVariable Long id) {
+    public DocSaleDTO getByIdDocSale(@PathVariable Long id) {
         return documentsFacade.getByIdDocSale(id);
     }
 
-    @GetMapping("/sale/items/{docId}")
-    public List<SaleItem> getDocSaleItems(@PathVariable long docId) {
-        return documentsFacade.getDocSaleItems(docId);
+    @PostMapping("/sale/")
+    public DocSaleDTO postDocSale(@RequestBody DocSaleDTO doc) {
+        return documentsFacade.saveDocSale(doc);
     }
 
     // Возвраты

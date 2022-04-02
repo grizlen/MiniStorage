@@ -5,10 +5,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import ru.griz.msfxclient.data.cache.DbContext;
-import ru.griz.msfxclient.data.cache.repositories.ProductsRepository;
 import ru.griz.msfxclient.data.entities.ProductEntity;
-import ru.griz.msfxclient.domain.models.ProductItem;
+import ru.griz.msfxclient.domain.common.ProductItem;
 
 public class NewProductDialog extends ItemDialog<ProductItem> {
 
@@ -33,7 +31,7 @@ public class NewProductDialog extends ItemDialog<ProductItem> {
         if (buttonType.equals(ButtonType.OK) && !tfName.getText().isBlank()) {
             ProductEntity entity = new ProductEntity();
             entity.setName(tfName.getText());
-            DbContext.repository(ProductsRepository.class).save(entity);
+//            DbContext.repository(ProductsRepository.class).save(entity);
             ProductItem item = new ProductItem();
             item.setId(entity.getId());
             item.setName(entity.getName());

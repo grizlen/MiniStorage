@@ -1,43 +1,48 @@
 package ru.griz.msfxclient.presentation.commands;
 
-import ru.griz.msfxclient.presentation.common.ViewManager;
-import ru.griz.msfxclient.presentation.views.DocBuyView;
-import ru.griz.msfxclient.buy.JournalBuyView;
-
-import java.util.HashMap;
-import java.util.Map;
+import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
+import ru.griz.msfxclient.presentation.views.MainView;
+import ru.griz.msfxclient.domain.documents.buy.JournalBuyView;
 
 public class Commands {
+    public static final Command CMD_JOURNAL_BUY = new Command("Поступления", () ->
+            MainView.currentView(JournalBuyView.class));
 
-    public static String
-            CMD_BUY_JOURNAL = "buy_journal",
-            CMD_BUY_NEW = "buy_new";
-
-    private static Commands instance;
-    private final Map<String, Command> map;
-
-    private static Commands getInstance() {
-        return instance == null ? (instance = new Commands()) : instance;
+    public static Command create(String name, CommandAction action) {
+        return new Command(name, action);
     }
 
-    public static Command get(String cmdName) {
-        return getInstance().find(cmdName.toLowerCase());
+    public static class Command {
+        private final String name;
+        private final CommandAction action;
+
+        private Command(String name, CommandAction action) {
+            this.name = name;
+            this.action = action;
+        }
+
+        public MenuItem asMenuItem() {
+            MenuItem result = new MenuItem(name);
+            result.setOnAction(actionEvent -> exec());
+            return result;
+        }
+
+        public Button asButton() {
+            Button result = new Button(name);
+            result.setOnAction(actionEvent -> exec());
+            return result;
+        }
+
+        public void exec() {
+            System.out.println("Command: " + name);
+            if (action != null) {
+                action.exec();
+            }
+        }
     }
 
-    // TODO: 07.03.2022 use Builder for Action
-    private Commands() {
-        map = new HashMap<>();
-        create(CMD_BUY_JOURNAL, "Поставки").setAction(() -> ViewManager.currentView(JournalBuyView.class));
-        create(CMD_BUY_NEW, "Новая поставка").setAction(() -> ViewManager.currentView(DocBuyView.class));
-    }
-
-    private Command create(String cmdName, String title) {
-        Command command = Command.builder(cmdName, title).build();
-        map.put(command.getName(), command);
-        return command;
-    }
-
-    private Command find(String cmdName) {
-        return map.get(cmdName);
+    public interface CommandAction {
+        void exec();
     }
 }

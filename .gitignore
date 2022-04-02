@@ -1,0 +1,6 @@
+/.idea/
+*.iml
+.*
+/client/demodb.mv.db
+/MsServer/target/
+/MsFxClient/target/
