@@ -1,24 +1,41 @@
 package ru.griz.msfxclient;
 
 import javafx.application.Application;
-import javafx.scene.Scene;
+import javafx.application.Platform;
 import javafx.stage.Stage;
-import ru.griz.msfxclient.domain.CacheService;
-import ru.griz.msfxclient.presentation.common.ViewManager;
-import ru.griz.msfxclient.buy.JournalBuyView;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ConfigurableApplicationContext;
 
 public class FxClientApp extends Application {
+
+    private ConfigurableApplicationContext context;
+
     @Override
     public void start(Stage stage) {
-        CacheService.checkUpdates();
-        ViewManager.currentView(JournalBuyView.class);
-        Scene scene = new Scene(ViewManager.mainView(), 320, 240);
-        stage.setTitle("Mini storage");
-        stage.setScene(scene);
-        stage.show();
+        context.publishEvent(new StageReadyEvent(stage));
     }
 
-    public static void main(String[] args) {
-        launch();
+    @Override
+    public void init() {
+        context = new SpringApplicationBuilder()
+                .sources(SpringFxClientApp.class)
+                .run();
+    }
+
+    @Override
+    public void stop() {
+        context.close();
+        Platform.exit();
+    }
+
+    public static class StageReadyEvent extends ApplicationEvent {
+        public StageReadyEvent(Stage stage) {
+            super(stage);
+        }
+
+        public Stage getStage() {
+            return (Stage) getSource();
+        }
     }
 }
