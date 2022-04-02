@@ -3,12 +3,11 @@ package ru.griz.ms.server.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.griz.ms.server.dtos.DocBuyDTO;
+import ru.griz.ms.server.dtos.DocSaleDTO;
 import ru.griz.ms.server.entities.*;
 import ru.griz.ms.server.exceptions.ResourceNotFoundException;
 import ru.griz.ms.server.repositories.ReturnItemRepository;
 import ru.griz.ms.server.repositories.ReturnRepository;
-import ru.griz.ms.server.repositories.SaleItemRepository;
-import ru.griz.ms.server.repositories.SaleRepository;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -19,8 +18,7 @@ public class DocumentsFacade {
 
     private final DocumentService documentService;
     private final DocBuyService docBuyService;
-    private final SaleRepository saleRepository;
-    private final SaleItemRepository saleItemRepository;
+    private final DocSaleService docSaleService;
     private final ReturnRepository returnRepository;
     private final ReturnItemRepository returnItemRepository;
 
@@ -38,7 +36,7 @@ public class DocumentsFacade {
     }
 
     // Поступления
-    public List<BuyHeader> getAllDocBuys() {
+    public List<DocBuyDTO> getAllDocBuys() {
         return docBuyService.getAll();
     }
 
@@ -47,21 +45,20 @@ public class DocumentsFacade {
     }
 
     public DocBuyDTO saveDocBuy(DocBuyDTO doc) {
-        return docBuyService.saveDocBuy(doc);
+        return docBuyService.save(doc);
     }
 
     // Отгрузки
-    public List<SaleHeader> getAllDocSales() {
-        return saleRepository.findAll();
+    public List<DocSaleDTO> getAllDocSales() {
+        return docSaleService.getAll();
     }
 
-    public SaleHeader getByIdDocSale(Long id) {
-        return saleRepository.findById(id)
-                .orElseThrow(documentNotFound(id));
+    public DocSaleDTO getByIdDocSale(Long id) {
+        return docSaleService.getById(id);
     }
 
-    public List<SaleItem> getDocSaleItems(long docId) {
-        return saleItemRepository.findAllByDocId(docId);
+    public DocSaleDTO saveDocSale(DocSaleDTO doc) {
+        return docSaleService.save(doc);
     }
 
     // Возвраты

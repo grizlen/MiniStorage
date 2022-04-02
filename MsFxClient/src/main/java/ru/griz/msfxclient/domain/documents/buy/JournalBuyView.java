@@ -1,10 +1,17 @@
 package ru.griz.msfxclient.domain.documents.buy;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.griz.msfxclient.presentation.commands.Commands;
 import ru.griz.msfxclient.presentation.views.JournalView;
 import ru.griz.msfxclient.presentation.views.MainView;
 
+@Component
 public class JournalBuyView extends JournalView<DocBuy> {
+
+    @Autowired
+    private DocBuyService docBuyService = new DocBuyService();
 
     @Override
     public String title() {
@@ -21,12 +28,13 @@ public class JournalBuyView extends JournalView<DocBuy> {
 
     @Override
     public void open() {
-        DocBuy docBuy = new DocBuy();
-        docBuy.setId(1L);
-        DocBuy.DocBuyItem buyItem = new DocBuy.DocBuyItem();
-        buyItem.setProductName("product 1");
-        docBuy.addItem(buyItem);
-        items.add(docBuy);
+        loadItems(docBuyService.getAll());
+//        DocBuy docBuy = new DocBuy();
+//        docBuy.setId(1L);
+//        DocBuy.DocBuyItem buyItem = new DocBuy.DocBuyItem();
+//        buyItem.setProductName("product 1");
+//        docBuy.addItem(buyItem);
+//        items.add(docBuy);
     }
 
     @Override

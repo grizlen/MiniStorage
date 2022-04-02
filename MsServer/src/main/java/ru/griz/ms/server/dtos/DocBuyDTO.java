@@ -1,6 +1,7 @@
 package ru.griz.ms.server.dtos;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
@@ -28,13 +29,11 @@ public class DocBuyDTO {
 
     @Getter
     @Setter
+    @NoArgsConstructor
     public static class BuyItemDTO {
         Long productId;
         String productName;
         Integer count;
-
-        private BuyItemDTO() {
-        }
     }
 
     public static class DocBuyDtoBuilder {

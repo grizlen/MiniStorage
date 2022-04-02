@@ -7,5 +7,7 @@ import ru.griz.ms.server.entities.SaleItem;
 import java.util.List;
 
 public interface SaleItemRepository extends JpaRepository<SaleItem, Long> {
+
     List<SaleItem> findAllByDocId(Long docId);
+    void deleteByDocId(Long docId);
 }

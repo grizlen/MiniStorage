@@ -5,6 +5,8 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 
+import java.util.List;
+
 public abstract class JournalView<T> extends ContentView {
 
     private final ListView<T> lvItems = new ListView<>();
@@ -27,5 +29,10 @@ public abstract class JournalView<T> extends ContentView {
 
     protected void onClickItem(T item) {
         System.out.println("onClickItem");
+    }
+
+    protected void loadItems(List<T> list) {
+        items.clear();
+        items.addAll(list);
     }
 }

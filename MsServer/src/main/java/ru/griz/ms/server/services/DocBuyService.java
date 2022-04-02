@@ -28,8 +28,15 @@ public class DocBuyService {
         return () -> new ResourceNotFoundException("Document: " + id + " not found");
     }
 
-    public List<BuyHeader> getAll() {
-        return buyRepository.findAll();
+    public List<DocBuyDTO> getAll() {
+        return buyRepository.findAll().stream()
+                .map(header ->
+                        DocBuyDTO.builder()
+                                .id(header.getId())
+                                .date(header.getDate())
+                                .build()
+                )
+                .collect(Collectors.toList());
     }
 
     public DocBuyDTO getById(Long id) {
@@ -53,13 +60,12 @@ public class DocBuyService {
     }
 
     @Transactional
-    public DocBuyDTO saveDocBuy(DocBuyDTO doc) {
+    public DocBuyDTO save(DocBuyDTO doc) {
         if (doc.getId() != null) {
             buyItemRepository.deleteByDocId(doc.getId());
         }
 
         Document document = documentService.saveBuy(doc.getId());
-
         Long docId = document.getId();
 
         BuyHeader header = new BuyHeader();

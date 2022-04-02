@@ -7,6 +7,7 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import org.springframework.context.ApplicationContext;
 import ru.griz.msfxclient.presentation.commands.Commands;
 
 import java.util.ArrayList;
@@ -51,6 +52,7 @@ public class MainView extends VBox {
     }
 
     private <T extends ContentView> T createView(Class<T> tClass) {
+
         try {
             return tClass.getDeclaredConstructor().newInstance();
         } catch (Exception e) {

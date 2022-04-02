@@ -16,6 +16,7 @@ public class SaleHeader {
     @Id
     Long id;
     Date date;
+    Long SubDepartmentId;
 
     public SaleHeader() {
         date = new Date();
