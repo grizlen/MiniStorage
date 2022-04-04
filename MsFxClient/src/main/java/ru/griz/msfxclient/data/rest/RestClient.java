@@ -1,21 +1,33 @@
 package ru.griz.msfxclient.data.rest;
 
-import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
-import ru.griz.msfxclient.domain.documents.buy.DocBuy;
+import ru.griz.msfxclient.data.rest.json.JsonClient;
+import ru.griz.msfxclient.data.rest.json.JsonMapper;
 
-import java.util.Collections;
 import java.util.List;
 
-@Component
 public class RestClient {
 
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final JsonClient client;
+    private final JsonMapper mapper;
 
-    private static final String API_ROOT = "http://https://my-simplecrm.herokuapp.com/api/";
+    RestClient(String clientPath) {
+        client = new JsonClient(clientPath);
+        mapper = new JsonMapper();
+    }
 
-    public List<DocBuy> getAllDocBuys() {
-        DocBuy[] docBuys = restTemplate.getForObject(API_ROOT + "buy/", DocBuy[].class);
-        return docBuys != null ? List.of(docBuys) : Collections.emptyList();
+    protected <T> T get(String path, Class<T> tClass) {
+        String response = client.get(path);
+        return mapper.fromJson(response, tClass);
+    }
+
+    protected <T> List<T> getList(String path, Class<T> itemClass) {
+        String response = client.get(path);
+        return mapper.listFromJson(response, itemClass);
+    }
+
+    protected <T> T post(String path, T item, Class<T> tClass) {
+        String request = mapper.toJson(item);
+        String response = client.post(path, request);
+        return mapper.fromJson(response, tClass);
     }
 }
